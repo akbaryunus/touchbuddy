@@ -6,12 +6,11 @@ touchBuddy.setTouchPin(DigitalPin.P2, 10)
 basic.forever(function () {
     if (touchBuddy.isTouched(DigitalPin.P0)) {
         basic.showString("0")
-    }
-    if (touchBuddy.isTouched(DigitalPin.P1)) {
+    } else if (touchBuddy.isTouched(DigitalPin.P1)) {
         basic.showString("1")
-    }
-    if (touchBuddy.isTouched(DigitalPin.P2)) {
+    } else if (touchBuddy.isTouched(DigitalPin.P2)) {
         basic.showString("2")
+    } else {
+        basic.showString(".")
     }
-    basic.pause(100)
 })
