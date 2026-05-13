@@ -1,6 +1,6 @@
 {
     "name": "TouchBuddy",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Adjustable capacitive touch for micro:bit using two pins. Great for longer jumper cables.",
     "license": "MIT",
     "dependencies": {
