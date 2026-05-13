@@ -65,5 +65,3 @@ basic.forever(function () {
 
 ## License
 MIT
-
-> TouchBuddy=github:akbaryunus/touchbuddy
