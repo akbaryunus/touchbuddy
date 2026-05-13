@@ -7,7 +7,7 @@ Supports multiple touch pins sharing one buddy pin.
 ## Wiring
 
 ```
-micro:bit P16 ──── buddy pin (shared, connect to all touch pins)
+micro:bit P16 ──── buddy pin (shared, dont use buddy pin for other purposes.)
 micro:bit P0  ──── jumper cable 1 ──── (touch point 1)
 micro:bit P1  ──── jumper cable 2 ──── (touch point 2)
 micro:bit P2  ──── jumper cable 3 ──── (touch point 3)
