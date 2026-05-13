@@ -1,60 +1,69 @@
 # TouchBuddy
 
 A micro:bit MakeCode extension for adjustable capacitive touch detection.
-Works great with longer jumper cables where the default touch sensitivity falls short.
+Works with longer jumper cables where the default micro:bit touch sensitivity falls short.
+Supports multiple touch pins sharing one buddy pin.
 
 ## Wiring
 
 ```
-micro:bit P0 ──────── jumper cable ──── (touch point)
-micro:bit P1 ──────── (connect to P0 directly)
+micro:bit P16 ──── buddy pin (shared, connect to all touch pins)
+micro:bit P0  ──── jumper cable 1 ──── (touch point 1)
+micro:bit P1  ──── jumper cable 2 ──── (touch point 2)
+micro:bit P2  ──── jumper cable 3 ──── (touch point 3)
 ```
 
-No resistor needed — uses the micro:bit's internal pull-up resistor.
+No resistor needed.
+
+## Adding to MakeCode
+
+Go to **Extensions** and paste:
+```
+https://github.com/akbaryunus/touchbuddy
+```
 
 ## Blocks
 
 | Block | Description |
 |---|---|
-| `set touch pin [P0]` | The pin your jumper cable is connected to |
-| `set buddy pin [P1]` | The other pin (not touched) |
-| `set threshold [10]` | Sensitivity — increase if false triggers, decrease if not detecting |
-| `is touched` | Returns true/false |
-| `raw touch duration` | Returns raw value for calibration |
-| `start serial calibration` | Prints raw values to serial monitor |
+| `set buddy pin [P16]` | Shared pin — set once at the start |
+| `set touch pin [P0] threshold [10]` | Register a touch pin with its own threshold |
+| `is touched [P0]` | Returns true/false for that pin |
+| `raw touch duration [P0]` | Raw value for calibration |
+| `start serial calibration [P0]` | Streams raw values to serial monitor |
 
 ## Calibration
 
-1. Add the `start serial calibration` block to your program
+1. Add `start serial calibration [P0]` to your program
 2. Flash to micro:bit
 3. Click **Show console Device** in MakeCode
-4. Watch the duration values — note the value when **not touching** and when **touching**
-5. Set your threshold somewhere in between
-6. Remove the calibration block when done
+4. Note the value when **not touching** and when **touching**
+5. Set threshold somewhere in between
+6. Repeat for each pin if needed
+7. Remove calibration block when done
 
 ## Example
 
 ```typescript
-touchBuddy.setTouchPin(DigitalPin.P0)
-touchBuddy.setBuddyPin(DigitalPin.P1)
-touchBuddy.setThreshold(10)
+touchBuddy.setBuddyPin(DigitalPin.P16)
+touchBuddy.setTouchPin(DigitalPin.P0, 10)
+touchBuddy.setTouchPin(DigitalPin.P1, 10)
+touchBuddy.setTouchPin(DigitalPin.P2, 10)
 
 basic.forever(function () {
-    if (touchBuddy.isTouched()) {
-        basic.showString("T")
+    if (touchBuddy.isTouched(DigitalPin.P0)) {
+        basic.showString("0")
+    } else if (touchBuddy.isTouched(DigitalPin.P1)) {
+        basic.showString("1")
+    } else if (touchBuddy.isTouched(DigitalPin.P2)) {
+        basic.showString("2")
     } else {
         basic.showString(".")
     }
-    basic.pause(100)
 })
-```
-
-## Adding to MakeCode
-
-In MakeCode go to **Extensions** and paste:
-```
-[https://github.com/YOUR_USERNAME/TouchBuddy](https://github.com/akbaryunus/touchbuddy)
 ```
 
 ## License
 MIT
+
+> TouchBuddy=github:akbaryunus/touchbuddy
