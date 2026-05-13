@@ -1,18 +1,17 @@
-// TouchBuddy Test
-// Press A to test touch, Press B to calibrate
+touchBuddy.setBuddyPin(DigitalPin.P16)
+touchBuddy.setTouchPin(DigitalPin.P0, 10)
+touchBuddy.setTouchPin(DigitalPin.P1, 10)
+touchBuddy.setTouchPin(DigitalPin.P2, 10)
 
-touchBuddy.setTouchPin(DigitalPin.P0)
-touchBuddy.setBuddyPin(DigitalPin.P1)
-touchBuddy.setThreshold(10)
-
-input.onButtonPressed(Button.A, function () {
-    if (touchBuddy.isTouched()) {
-        basic.showString("T")
-    } else {
-        basic.showString(".")
+basic.forever(function () {
+    if (touchBuddy.isTouched(DigitalPin.P0)) {
+        basic.showString("0")
     }
-})
-
-input.onButtonPressed(Button.B, function () {
-    basic.showNumber(touchBuddy.rawDuration())
+    if (touchBuddy.isTouched(DigitalPin.P1)) {
+        basic.showString("1")
+    }
+    if (touchBuddy.isTouched(DigitalPin.P2)) {
+        basic.showString("2")
+    }
+    basic.pause(100)
 })
