@@ -19,21 +19,25 @@ namespace touchBuddy {
         _thresholds[pin] = threshold
     }
 
-    function _measure(pin: DigitalPin): number {
-    // Discharge ALL registered pins first
-    for (let i = 0; i < _thresholds.length; i++) {
-        if (_thresholds[i] >= 0) {
-            pins.digitalWritePin(i, 0)
+function _measure(pin: DigitalPin): number {
+    let total = 0
+    for (let i = 0; i < 5; i++) {
+        // Discharge ALL registered pins first
+        for (let j = 0; j < _thresholds.length; j++) {
+            if (_thresholds[j] >= 0) {
+                pins.digitalWritePin(j, 0)
+            }
         }
+        pins.digitalWritePin(_buddyPin, 0)
+        basic.pause(1)
+        // Charge only the pin we want
+        pins.digitalWritePin(_buddyPin, 1)
+        let start = control.micros()
+        while (pins.digitalReadPin(pin) == 0) { }
+        total += control.micros() - start
     }
-    pins.digitalWritePin(_buddyPin, 0)
-    basic.pause(1)
-    // Now charge only the pin we want
-    pins.digitalWritePin(_buddyPin, 1)
-    let start = control.micros()
-    while (pins.digitalReadPin(pin) == 0) { }
-    return control.micros() - start
-    }
+    return total / 5
+}
 
     //% block="is touched %pin"
     //% pin.fieldEditor="gridpicker"
