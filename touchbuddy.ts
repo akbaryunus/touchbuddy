@@ -75,7 +75,7 @@ function _measure(pin: DigitalPin): number {
         basic.forever(function () {
             for (let pin = 0; pin < _thresholds.length; pin++) {
                 if (_thresholds[pin] >= 0) {
-                    serial.writeValue("P" + pin, _measure(pin))
+                    serial.writeValue("P" + (pin - 100), _measure(pin))
                 }
             }
             basic.pause(100)
