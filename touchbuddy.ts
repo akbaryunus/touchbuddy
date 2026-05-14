@@ -20,9 +20,10 @@ namespace touchBuddy {
     }
 
 function _measure(pin: DigitalPin): number {
-    let total = 0
+    let readings: number[] = [0, 0, 0, 0, 0]
+    
+    // Take 5 readings
     for (let i = 0; i < 5; i++) {
-        // Discharge ALL registered pins first
         for (let j = 0; j < _thresholds.length; j++) {
             if (_thresholds[j] >= 0) {
                 pins.digitalWritePin(j, 0)
@@ -30,13 +31,25 @@ function _measure(pin: DigitalPin): number {
         }
         pins.digitalWritePin(_buddyPin, 0)
         basic.pause(1)
-        // Charge only the pin we want
         pins.digitalWritePin(_buddyPin, 1)
         let start = control.micros()
         while (pins.digitalReadPin(pin) == 0) { }
-        total += control.micros() - start
+        readings[i] = control.micros() - start
     }
-    return total / 5
+
+    // Sort readings (bubble sort)
+    for (let a = 0; a < 5; a++) {
+        for (let b = 0; b < 4 - a; b++) {
+            if (readings[b] > readings[b + 1]) {
+                let tmp = readings[b]
+                readings[b] = readings[b + 1]
+                readings[b + 1] = tmp
+            }
+        }
+    }
+
+    // Return middle value
+    return readings[2]
 }
 
     //% block="is touched %pin"
