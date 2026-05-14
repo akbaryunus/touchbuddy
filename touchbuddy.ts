@@ -30,7 +30,7 @@ function _measure(pin: DigitalPin): number {
             }
         }
         pins.digitalWritePin(_buddyPin, 0)
-        basic.pause(1)
+        basic.pause(0)
         pins.digitalWritePin(_buddyPin, 1)
         let start = control.micros()
         while (pins.digitalReadPin(pin) == 0) { }
